@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BoostBank Gold Card</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      gap: 40px;
+    }
+
+    .card-container {
+      perspective: 1000px;
+    }
+
+    .credit-card {
+      width: 350px;
+      height: 200px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+
+    .credit-card:hover {
+      transform: rotateY(10deg) rotateX(5deg);
+    }
+
+    .card-name {
+      font-size: 0.9em;
+      font-weight: bold;
+    }
+
+    .card-number {
+      font-size: 1.3em;
+      letter-spacing: 2px;
+      margin-top: 40px;
+    }
+
+    .blurred {
+      filter: blur(4px);
+      display: inline-block;
+    }
+
+    .card-holder,
+    .expiry {
+      text-transform: uppercase;
+      font-size: 0.8em;
+      margin-top: 30px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chip {
+      width: 50px;
+      height: 35px;
+      background: gold;
+      border-radius: 5px;
+    }
+
+    /* Simple logo */
+    .card-logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 24px;
+      display: flex;
+      gap: 4px;
+    }
+
+    .card-logo .circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: orange;
+      opacity: 0.9;
+    }
+
+    .card-logo .circle.second {
+      background: red;
+      margin-left: -10px;
+    }
+
+    .info-panel {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 220px;
+    }
+
+    .info-panel h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .info-panel p {
+      margin: 8px 0;
+      color: #555;
+    }
+
+    .info-panel span {
+      font-weight: bold;
+      color: #111;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-container">
+    <div class="credit-card">
+      <div class="chip"></div>
+      <div class="card-logo">
+        <div class="circle"></div>
+        <div class="circle second"></div>
+      </div>
+      <div class="card-name">BoostBank Gold</div>
+      <div class="card-number">1234 5678 9012 <span class="blurred">3456</span></div>
+      <div class="card-footer">
+        <div class="card-holder">Eivind Tøllefsen</div>
+        <div class="expiry">12/28</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-panel">
+    <h3>Card Details</h3>
+    <p>Available credit: <span>56.000 NOK</span></p>
+    <p>Cashback: <span>Activated</span></p>
+    <p>Allowed region for use: <span>Europe</span></p>
+    <p>Overdraft protection: <span>Activated</span></p>
+    <p>Card status: <span>Active</span></p>
+  </div>
+</body>
+</html>
