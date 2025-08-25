@@ -1,14 +1,14 @@
-// netlify/functions/card-status.js (CommonJS + Blobs)
+// netlify/functions/card-status.js (CommonJS + Blobs + in-memory fallback)
 const { getStore } = require('@netlify/blobs');
 
-let store;
+// Try to open the persistent store (ok if not available)
+let store = null;
 try {
-  // ✅ Correct signature uses an options object with a name
   store = getStore({ name: 'card-store' });
-} catch (e) {
-  // If Blobs isn’t available, we’ll see it in the response
-  store = null;
-}
+} catch (_) { /* ignore */ }
+
+// In-memory fallback (survives while the same instance is warm)
+let volatileStatus = 'Active';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -18,9 +18,16 @@ const headers = {
 };
 
 async function readStatus() {
-  if (!store) return 'Active';
-  const value = await store.get('status'); // returns string or null
-  return value || 'Active';
+  if (store) {
+    const value = await store.get('status'); // string or null
+    return value || volatileStatus;
+  }
+  return volatileStatus;
+}
+
+async function writeStatus(value) {
+  volatileStatus = value;          // always keep the in-memory copy
+  if (store) await store.set('status', value); // persist if available
 }
 
 module.exports.handler = async (event) => {
@@ -40,9 +47,7 @@ module.exports.handler = async (event) => {
 
       if (normalized === 'active' || normalized === 'deactivated') {
         const pretty = normalized[0].toUpperCase() + normalized.slice(1);
-        if (store) {
-          await store.set('status', pretty); // persist!
-        }
+        await writeStatus(pretty);
         return { statusCode: 200, headers, body: JSON.stringify({ status: pretty, persisted: !!store }) };
       }
 
