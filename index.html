@@ -146,5 +146,19 @@
     <p>Overdraft protection: <span>Activated</span></p>
     <p>Card status: <span id="card-status">—</span></p>
   </div>
+<script>
+  async function loadStatus() {
+    const el = document.getElementById('card-status');
+    try {
+      const res = await fetch('/.netlify/functions/card-status', { cache: 'no-store' });
+      const data = await res.json();
+      el.textContent = data?.status || 'Unknown';
+    } catch (e) {
+      el.textContent = 'Error';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadStatus);
+</script>  
 </body>
 </html>
